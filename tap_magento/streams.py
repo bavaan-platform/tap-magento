@@ -236,8 +236,10 @@ class ProductsAttributeStream(MagentoStream):
         th.Property("note", th.StringType),
         th.Property("backend_type", th.StringType),
         th.Property("backend_model", th.StringType),
+        th.Property("source_model", th.StringType),
         th.Property("default_value", th.StringType),
         th.Property("is_unique", th.StringType),
+        th.Property("frontend_class", th.StringType),
         th.Property(
             "validation_rules",
             th.ArrayType(th.CustomType({"type": ["null", "object"]})),
