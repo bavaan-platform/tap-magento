@@ -223,11 +223,6 @@ class ProductsAttributeStream(MagentoStream):
             th.ArrayType(th.CustomType({"type": ["null", "object"]})),
         ),
         th.Property("is_user_defined", th.BooleanType),
-        th.Property(
-            "apply_to",
-            th.ArrayType(th.CustomType({"type": ["null", "object"]})),
-        ),
-
         th.Property("default_frontend_label", th.StringType),
         th.Property(
             "frontend_labels",
