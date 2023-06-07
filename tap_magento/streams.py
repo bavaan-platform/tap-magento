@@ -352,7 +352,7 @@ class CategoryStream(MagentoStream):
         th.Property("path", th.StringType),
         th.Property("include_in_menu", th.BooleanType),
         th.Property("available_sort_by", th.CustomType({"type": ["array", "string"]})),
-        th.Property("custom_attributes", th.CustomType({"type": ["array", "string"]})),
+        th.Property("custom_attributes", th.CustomType({"type": ["array", "object"]})),
     ).to_dict()
 
 
