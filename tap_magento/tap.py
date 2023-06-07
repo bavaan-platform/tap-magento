@@ -15,6 +15,7 @@ from tap_magento.streams import (
     SaleRulesStream,
     CouponsStream,
     InvoicesStream,
+    ProductsAttributeStream
 )
 
 
@@ -27,6 +28,7 @@ STREAM_TYPES = [
     SaleRulesStream,
     CouponsStream,
     InvoicesStream,
+    ProductsAttributeStream
 ]
 
 
