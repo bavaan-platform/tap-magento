@@ -203,7 +203,7 @@ class ProductsAttributeStream(MagentoStream):
         th.Property("position", th.NumberType),
         th.Property(
             "apply_to",
-            th.ArrayType(th.CustomType({"type": ["null", "object"]})),
+            th.ArrayType(th.CustomType({"type": ["null", "string"]})),
         ),
         th.Property("is_searchable", th.StringType),
         th.Property("is_visible_in_advanced_search", th.StringType),
