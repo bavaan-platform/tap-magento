@@ -2,9 +2,8 @@
 
 from pathlib import Path
 from typing import Any, Dict, Optional, Union, List, Iterable
-
+from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk import typing as th  # JSON Schema typing helpers
-
 from tap_magento.client import MagentoStream
 import requests
 
@@ -239,8 +238,18 @@ class ProductsAttributeStream(MagentoStream):
             "validation_rules",
             th.ArrayType(th.CustomType({"type": ["null", "object"]})),
         ),
+        th.Property("source", th.StringType),
     ).to_dict()
-
+    def parse_response(self, response: requests.Response) -> Iterable[dict]:
+        def preprocess_input(data):
+            data_convert = []
+            for item in data['items']:
+                item['source'] = "magento"
+                data_convert.append(item)
+            return data_convert
+        processed_data = response.json()
+        res = preprocess_input(processed_data)
+        yield from extract_jsonpath(self.records_jsonpath, input={"items": res})
 
 class ProductsStream(MagentoStream):
 
@@ -284,8 +293,19 @@ class ProductsStream(MagentoStream):
             "custom_attributes",
             th.ArrayType(th.CustomType({"type": ["null", "object"]})),
         ),
+        th.Property("source", th.StringType),
     ).to_dict()
 
+    def parse_response(self, response: requests.Response) -> Iterable[dict]:
+        def preprocess_input(data):
+            data_convert = []
+            for item in data['items']:
+                item['source'] = "magento"
+                data_convert.append(item)
+            return data_convert
+        processed_data = response.json()
+        res = preprocess_input(processed_data)
+        yield from extract_jsonpath(self.records_jsonpath, input={"items": res})
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
         return {
@@ -332,30 +352,37 @@ class ProductItemStocksStream(MagentoStream):
     ).to_dict()
 
 
+
 class CategoryStream(MagentoStream):
 
     name = "categories"
     path = "/categories/list"
     primary_keys = ["id"]
     records_jsonpath: str = "$.items[*]"
-    replication_key = "updated_at"
     schema = th.PropertiesList(
         th.Property("id", th.NumberType),
         th.Property("parent_id", th.NumberType),
         th.Property("name", th.StringType),
-        th.Property("is_active", th.BooleanType),
         th.Property("position", th.NumberType),
         th.Property("level", th.NumberType),
         th.Property("children", th.StringType),
-        th.Property("created_at", th.DateTimeType),
-        th.Property("updated_at", th.DateTimeType),
+        th.Property("created_at", th.StringType),
+        th.Property("updated_at", th.StringType),
         th.Property("path", th.StringType),
-        th.Property("include_in_menu", th.BooleanType),
-        th.Property("available_sort_by", th.CustomType({"type": ["array", "string"]})),
-        th.Property("custom_attributes", th.CustomType({"type": ["array", "object"]})),
+        th.Property("source", th.StringType),
     ).to_dict()
 
-
+    def parse_response(self, response: requests.Response) -> Iterable[dict]:
+        def preprocess_input(data):
+            data_convert = []
+            for item in data['items']:
+                item['source'] = "magento"
+                data_convert.append(item)
+            return data_convert
+        processed_data = response.json()
+        res = preprocess_input(processed_data)
+        yield from extract_jsonpath(self.records_jsonpath, input={"items": res})
+        
 class SaleRulesStream(MagentoStream):
 
     name = "salerules"
