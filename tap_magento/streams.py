@@ -366,8 +366,8 @@ class CategoryStream(MagentoStream):
         th.Property("position", th.NumberType),
         th.Property("level", th.NumberType),
         th.Property("children", th.StringType),
-        th.Property("created_at", th.StringType),
-        th.Property("updated_at", th.StringType),
+        th.Property("created_at", th.DateTimeType),
+        th.Property("updated_at", th.DateTimeType),
         th.Property("path", th.StringType),
         th.Property("source", th.StringType),
     ).to_dict()
