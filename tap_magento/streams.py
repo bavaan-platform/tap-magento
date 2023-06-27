@@ -256,7 +256,6 @@ class ProductsStream(MagentoStream):
     name = "products"
     path = "/products"
     primary_keys = ["id"]
-    replication_key = "updated_at"
 
     schema = th.PropertiesList(
         th.Property("id", th.NumberType),
